@@ -1,4 +1,8 @@
+package com.bear.neteasemusic.api;
+
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import okhttp3.*;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -6,10 +10,14 @@ import org.apache.commons.codec.net.URLCodec;
 import org.apache.commons.lang3.RandomUtils;
 
 import javax.crypto.Cipher;
+import javax.crypto.ExemptionMechanismException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import java.io.IOException;
 import java.security.KeyFactory;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
@@ -42,32 +50,40 @@ public class NeteaseAPI {
 
     }
 
-    private static byte[] rsaEncrypt(byte[] buffer) throws Exception {
+    private static byte[] rsaEncrypt(byte[] buffer) {
         byte[] reversed = ArrayUtils.clone(buffer);
         ArrayUtils.reverse(reversed);
-        return rsaCipher.doFinal(reversed);
+        try {
+            return rsaCipher.doFinal(reversed);
+        } catch (Exception ex) {
+            throw new RuntimeException("This is gonna never happen");
+        }
     }
 
-    private static byte[] aesEncrypt(byte[] buffer, byte[] key, byte[] ivBytes) throws Exception {
-        SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
-        Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");//"算法/模式/补码方式"
-        IvParameterSpec iv = new IvParameterSpec(ivBytes);//使用CBC模式，需要一个向量iv，可增加加密算法的强度
-        cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
-        int padLength = aesKeySize - (buffer.length % aesKeySize);
-        byte[] pad = new byte[padLength];
-        Arrays.fill(pad, (byte)padLength);
-        byte[] padded = ArrayUtils.addAll(buffer, pad);
-        byte[] encrypted = cipher.doFinal(padded);
-        return Base64.getEncoder().encode(encrypted);
+    private static byte[] aesEncrypt(byte[] buffer, byte[] key, byte[] ivBytes) {
+        SecretKeySpec skeySpec = null;
+        Cipher cipher = null;
+        try {
+            skeySpec = new SecretKeySpec(key, "AES");
+            cipher = Cipher.getInstance("AES/CBC/NoPadding");
+            IvParameterSpec iv = new IvParameterSpec(ivBytes);
+            cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
+            int padLength = aesKeySize - (buffer.length % aesKeySize);
+            byte[] pad = new byte[padLength];
+            Arrays.fill(pad, (byte) padLength);
+            byte[] padded = ArrayUtils.addAll(buffer, pad);
+            byte[] encrypted = cipher.doFinal(padded);
+            return Base64.getEncoder().encode(encrypted);
+        } catch (Exception e) {
+            throw new RuntimeException("This is gonna never happen");
+        }
     }
 
     private static String toPercentEncoding(byte[] shit) {
         return new String(URLCodec.encodeUrl(new BitSet(256), shit));
     }
 
-    static String weapiEncrypt(JSONObject data) throws Exception
-    {
-        String t = data.toJSONString();
+    private static String weapiEncrypt(String t) {
         byte[] text = t.getBytes(UTF_8);
         byte[] secretKey = new byte[aesKeySize];
         for (int i = 0; i < aesKeySize; i++) {
@@ -77,5 +93,25 @@ public class NeteaseAPI {
         byte[] result2 = aesEncrypt(result1, secretKey, defaultIV);
         byte[] rsaResult = Hex.encodeHexString(rsaEncrypt(secretKey)).getBytes(US_ASCII);
         return String.format("params=%s&encSecKey=%s", toPercentEncoding(result2), toPercentEncoding(rsaResult));
+    }
+
+    private OkHttpClient httpClient = new OkHttpClient();
+
+    public String postRequest(ApiRequest requestObj) throws IOException {
+
+        String params = weapiEncrypt(JSON.toJSONString(requestObj));
+        var body = RequestBody.create(params, MediaType.get("application/x-www-form-urlencoded"));
+        Request request = new Request.Builder()
+                .url("http://music.163.com/weapi/" + requestObj.getPath())
+                .header("Cookie", "os=pc")
+                .post(body)
+                .build();
+        try (Response response = httpClient.newCall(request).execute()) {
+            return response.body().string();
+        }
+    }
+
+    public NeteaseAPI() {
+
     }
 }
