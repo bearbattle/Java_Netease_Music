@@ -9,6 +9,11 @@
 
 <AnchorPane fx:id="paneLogin" prefHeight="275.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bear.neteasemusic.panel.LoginPanel">
    <children>
+       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="112.0" layoutY="14.0" text="欢迎使用 Java 网易云音乐！&#10;请先登录以获取您的歌单！" textAlignment="CENTER" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="15.0">
+           <font>
+             <Font size="14.0" />
+           </font>
+       </Label>
        <Label alignment="CENTER" contentDisplay="TOP" layoutX="70.0" layoutY="75.0" text="用户名" textAlignment="CENTER" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="280.0" AnchorPane.topAnchor="75.0">
            <font>
              <Font size="14.0" />
@@ -19,12 +24,12 @@
              <Font size="14.0" />
            </font>
        </Label>
-       <PasswordField fx:id="textPassword" layoutX="151.0" layoutY="126.0" promptText="密码" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="120.0">
+       <PasswordField fx:id="textPassword" layoutX="151.0" layoutY="126.0" pickOnBounds="false" promptText="密码" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="120.0">
            <font>
              <Font size="14.0" />
            </font>
        </PasswordField>
-       <TextField fx:id="testUsername" layoutX="151.0" layoutY="66.0" promptText="用户名/邮箱/手机号" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="70.0">
+       <TextField fx:id="textUsername" layoutX="151.0" layoutY="66.0" pickOnBounds="false" promptText="用户名/邮箱/手机号" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="70.0">
            <font>
              <Font size="14.0" />
            </font>
@@ -44,10 +49,5 @@
              <Font size="14.0" />
            </font>
        </CheckBox>
-       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="112.0" layoutY="14.0" text="欢迎使用 Java 网易云音乐！&#10;请先登录以获取您的歌单！" textAlignment="CENTER" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="15.0">
-           <font>
-             <Font size="14.0" />
-           </font>
-       </Label>
    </children>
 </AnchorPane>

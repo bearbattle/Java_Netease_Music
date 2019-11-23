@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.shape.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,36 +9,79 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.bear.neteasemusic.panel.MainView">
-    <TabPane layoutY="81.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <Tab text="我的歌单">
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <SplitPane dividerPositions="0.29797979797979796" layoutX="138.0" layoutY="240.0"
-                           prefHeight="767.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0"
-                           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                           AnchorPane.topAnchor="0.0">
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0"/>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0"/>
-                </SplitPane>
-            </AnchorPane>
-        </Tab>
-        <Tab text="播放界面">
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <SplitPane dividerPositions="0.7176470588235294" layoutX="385.0" layoutY="169.0"
-                           orientation="VERTICAL" prefHeight="767.0" prefWidth="1000.0"
-                           AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                           AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0"/>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                        <Slider layoutX="223.0" layoutY="51.0" prefHeight="16.0" prefWidth="552.0"/>
-                        <SVGPath
-                                content="M40,21 L40,39 C40,39.366 39.8,39.702 39.479,39.878 C39.33,39.959 39.165,40 39,40 C38.812,40 38.624,39.947 38.459,39.841 L30.448,34.691 C29.983,34.394 29.849,33.774 30.147,33.31 C30.447,32.846 31.065,32.708 31.529,33.01 L38,37.169 L38,22.832 L27.541,29.555 C27.233,29.754 26.841,29.766 26.521,29.592 C26.2,29.416 26,29.08 26,28.714 L26,22 L22,22 L22,38 L26,38 L26,33 C26,32.447 26.448,32 27,32 C27.552,32 28,32.447 28,33 L28,39 C28,39.553 27.552,40 27,40 L21,40 C20.448,40 20,39.553 20,39 L20,21 C20,20.447 20.448,20 21,20 L27,20 C27.552,20 28,20.447 28,21 L28,26.882 L38.459,20.159 C38.767,19.959 39.158,19.947 39.479,20.122 C39.8,20.298 40,20.634 40,21 M30,58 C14.561,58 2,45.439 2,30 C2,14.561 14.561,2 30,2 C45.439,2 58,14.561 58,30 C58,45.439 45.439,58 30,58 M30,0 C13.458,0 0,13.458 0,30 C0,46.542 13.458,60 30,60 C46.542,60 60,46.542 60,30 C60,13.458 46.542,0 30,0"
-                                layoutX="566.0" layoutY="91.0"/>
-                    </AnchorPane>
-                </SplitPane>
-            </AnchorPane>
-        </Tab>
-    </TabPane>
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bear.neteasemusic.panel.MainView">
+   <children>
+       <TabPane layoutY="81.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <tabs>
+              <Tab text="我的歌单">
+                 <content>
+                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <children>
+                            <SplitPane dividerPositions="0.25551102204408815" layoutX="138.0" layoutY="240.0" prefHeight="767.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                               <items>
+                                   <AnchorPane minHeight="0.0" minWidth="0.0">
+                                 <children>
+                                    <Label layoutX="36.0" layoutY="501.0" text="正在加载您的歌单～">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="96.0" layoutY="194.0" text="你好！">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fx:id="avatarView" fitHeight="150.0" fitWidth="150.0" layoutX="51.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                                    <Label fx:id="labelNickname" alignment="CENTER" layoutX="51.0" layoutY="164.0" prefHeight="30.0" prefWidth="150.0" text="Label" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <ListView fx:id="listPlaylists" layoutY="271.0" prefHeight="500.0" prefWidth="251.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                    <Label layoutX="86.0" layoutY="237.0" text="我的歌单" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                    <ListView layoutX="19.0" layoutY="266.0" prefHeight="499.0" prefWidth="739.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="266.0" />
+                                    <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                                 </children>
+                              </AnchorPane>
+                               </items>
+                            </SplitPane>
+                        </children>
+                     </AnchorPane>
+                 </content>
+              </Tab>
+              <Tab text="播放界面">
+                 <content>
+                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <children>
+                            <SplitPane dividerPositions="0.7176470588235294" layoutX="385.0" layoutY="169.0" orientation="VERTICAL" prefHeight="767.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                               <items>
+                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                      <children>
+                                          <Slider layoutX="223.0" layoutY="51.0" prefHeight="16.0" prefWidth="552.0" />
+                                          <SVGPath content="M40,21 L40,39 C40,39.366 39.8,39.702 39.479,39.878 C39.33,39.959 39.165,40 39,40 C38.812,40 38.624,39.947 38.459,39.841 L30.448,34.691 C29.983,34.394 29.849,33.774 30.147,33.31 C30.447,32.846 31.065,32.708 31.529,33.01 L38,37.169 L38,22.832 L27.541,29.555 C27.233,29.754 26.841,29.766 26.521,29.592 C26.2,29.416 26,29.08 26,28.714 L26,22 L22,22 L22,38 L26,38 L26,33 C26,32.447 26.448,32 27,32 C27.552,32 28,32.447 28,33 L28,39 C28,39.553 27.552,40 27,40 L21,40 C20.448,40 20,39.553 20,39 L20,21 C20,20.447 20.448,20 21,20 L27,20 C27.552,20 28,20.447 28,21 L28,26.882 L38.459,20.159 C38.767,19.959 39.158,19.947 39.479,20.122 C39.8,20.298 40,20.634 40,21 M30,58 C14.561,58 2,45.439 2,30 C2,14.561 14.561,2 30,2 C45.439,2 58,14.561 58,30 C58,45.439 45.439,58 30,58 M30,0 C13.458,0 0,13.458 0,30 C0,46.542 13.458,60 30,60 C46.542,60 60,46.542 60,30 C60,13.458 46.542,0 30,0" layoutX="566.0" layoutY="91.0" />
+                                      </children>
+                                   </AnchorPane>
+                               </items>
+                            </SplitPane>
+                        </children>
+                     </AnchorPane>
+                 </content>
+              </Tab>
+            <Tab fx:id="tabSignature" closable="false" disable="true" text="签名">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+          </tabs>
+       </TabPane>
+   </children>
 </AnchorPane>
