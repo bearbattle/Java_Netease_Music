@@ -12,6 +12,7 @@ public class ApiTest {
     private NeteaseAPI api;
     private int userId;
     private int playlistId;
+    private int trackId;
 
     @BeforeTest
     public void initialize() {
@@ -43,8 +44,18 @@ public class ApiTest {
     public void testGetPlaylistDetails() throws IOException {
         GetPlaylistDetailRequest req = new GetPlaylistDetailRequest(playlistId);
         var resp = GetPlaylistDetailResponse.parse(api.postRequest(req));
+        Assert.assertTrue(resp.isOk());
+        trackId = resp.getTracks().get(0).id;
         for (var track : resp.getTracks()) {
             System.out.println(String.format("%s by %s in %s", track.name, track.artistName, track.albumName));
         }
+    }
+
+    @Test(dependsOnMethods = "testGetPlaylistDetails")
+    public void testGetTrackUrl() throws IOException {
+        GetTrackUrlRequest req = new GetTrackUrlRequest(trackId, GetTrackUrlRequest.Rate.mp3_320);
+        var resp = GetTrackUrlResponse.parse(api.postRequest(req));
+        Assert.assertTrue(resp.isOk());
+        System.out.println(resp.getUrl());
     }
 }

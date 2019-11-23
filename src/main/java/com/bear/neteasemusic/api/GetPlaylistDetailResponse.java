@@ -13,6 +13,8 @@ public class GetPlaylistDetailResponse extends ApiResponse {
         public String artistName;
     }
 
+    private GetPlaylistDetailResponse() {}
+
     public static GetPlaylistDetailResponse parse(JSONObject response) {
         var resp = new GetPlaylistDetailResponse();
         if (response.getIntValue("code") != 200) {
