@@ -1,6 +1,13 @@
 package com.bear.neteasemusic.api;
 
 public abstract class ApiResponse {
-    public abstract boolean isOk();
-    public abstract String errorReason();
+    protected boolean ok = false;
+    public boolean isOk() {
+        return ok;
+    }
+
+    protected String reason = null;
+    public String errorReason() {
+        return reason;
+    }
 }

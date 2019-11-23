@@ -23,20 +23,6 @@ public class LoginResponse extends ApiResponse {
         return resp;
     }
 
-    private boolean ok;
-
-    @Override
-    public boolean isOk() {
-        return ok;
-    }
-
-    private String reason;
-
-    @Override
-    public String errorReason() {
-        return reason;
-    }
-
     private String nickName;
 
     public String getNickName() {

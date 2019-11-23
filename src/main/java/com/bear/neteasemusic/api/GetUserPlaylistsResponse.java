@@ -39,21 +39,6 @@ public class GetUserPlaylistsResponse extends ApiResponse {
         return resp;
     }
 
-
-    private boolean ok;
-
-    @Override
-    public boolean isOk() {
-        return ok;
-    }
-
-    private String reason;
-
-    @Override
-    public String errorReason() {
-        return reason;
-    }
-
     private List<Playlist> lists;
     public List<Playlist> getLists() {
         return lists;
