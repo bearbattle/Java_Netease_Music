@@ -20,9 +20,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.BitSet;
+import java.util.*;
 
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -95,23 +93,40 @@ public class NeteaseAPI {
         return String.format("params=%s&encSecKey=%s", toPercentEncoding(result2), toPercentEncoding(rsaResult));
     }
 
-    private OkHttpClient httpClient = new OkHttpClient();
+    private OkHttpClient httpClient;
+    private CookieJar cookieJar;
 
-    public String postRequest(ApiRequest requestObj) throws IOException {
+    public NeteaseAPI() {
+        cookieJar = new CookieJar() {
+            private final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
 
+            @Override
+            public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+                cookieStore.put(url.host(), cookies);
+            }
+
+            @Override
+            public List<Cookie> loadForRequest(HttpUrl url) {
+                List<Cookie> cookies = cookieStore.get(url.host());
+                return cookies != null ? cookies : new ArrayList<Cookie>();
+            }
+        };
+        cookieJar.saveFromResponse(HttpUrl.parse("http://music.163.com/"), new ArrayList<Cookie>(Arrays.asList(Cookie.parse(HttpUrl.get("http://music.163.com/"), "os=pc"))));
+        httpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
+    }
+
+
+    public JSONObject postRequest(ApiRequest requestObj) throws IOException {
         String params = weapiEncrypt(JSON.toJSONString(requestObj));
         var body = RequestBody.create(params, MediaType.get("application/x-www-form-urlencoded"));
         Request request = new Request.Builder()
                 .url("http://music.163.com/weapi/" + requestObj.getPath())
-                .header("Cookie", "os=pc")
                 .post(body)
                 .build();
         try (Response response = httpClient.newCall(request).execute()) {
-            return response.body().string();
+            var json = JSONObject.parseObject(response.body().string());
+            return json;
         }
     }
 
-    public NeteaseAPI() {
-
-    }
 }

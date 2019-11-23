@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-public class LoginRequestTest {
+public class ApiTest {
 
     private NeteaseAPI api;
 
@@ -16,11 +16,12 @@ public class LoginRequestTest {
         api = new NeteaseAPI();
     }
 
-    @Parameters({ "username", "password" })
+    @Parameters({"username", "password"})
     @Test
     public void testLogin(String username, String password) throws IOException {
         LoginRequest req = new LoginRequest(username, password);
-        var x = api.postRequest(req);
-        Assert.assertTrue(x != null && !x.equals(""), "Invalid data returned.");
+        var resp = LoginResponse.parse(api.postRequest(req));
+        Assert.assertTrue(resp.isOk());
+        System.out.println(resp.getNickName() + " " + resp.getSignature());
     }
 }
