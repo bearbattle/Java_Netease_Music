@@ -17,6 +17,8 @@ public class LoginResponse extends ApiResponse {
             var profile = response.getJSONObject("profile");
             resp.signature = profile.getString("signature");
             resp.nickName = profile.getString("nickname");
+            resp.userId = profile.getIntValue("userId");
+            resp.avatarUrl = profile.getString("avatarUrl");
         }
         return resp;
     }
@@ -45,5 +47,15 @@ public class LoginResponse extends ApiResponse {
 
     public String getSignature() {
         return signature;
+    }
+
+    private int userId;
+    public int getUserId() {
+        return userId;
+    }
+
+    private String avatarUrl;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 }
