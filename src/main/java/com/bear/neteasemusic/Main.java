@@ -49,6 +49,7 @@ public class Main extends Application {
         loginStage.setScene(sceneLogin);
         loginStage.setAlwaysOnTop(true);
         loginStage.setTitle("登录");
+        loginStage.setResizable(false);
         loginStage.showAndWait();
 
         if (loginStatus) {
@@ -58,6 +59,8 @@ public class Main extends Application {
             Scene scene = new Scene(root);
             addStylesheet(scene);
             primaryStage.setScene(scene);
+            primaryStage.setMinHeight(850);
+            primaryStage.setMinWidth(1000);
             primaryStage.show();
         }
     }
