@@ -16,6 +16,11 @@ public class GetUserPlaylistsResponse extends ApiResponse {
         public int trackCount;
         public int playCount;
         public String coverImgUrl;
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 
     public static GetUserPlaylistsResponse parse(JSONObject response) {
