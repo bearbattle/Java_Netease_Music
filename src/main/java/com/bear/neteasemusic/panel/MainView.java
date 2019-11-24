@@ -70,6 +70,9 @@ public class MainView {
     private TableColumn<GetPlaylistDetailResponse.Track, String> columnName;
 
     @FXML
+    private ImageView coverView;
+
+    @FXML
     void initialize() {
         assert tabSignature != null : "fx:id=\"tabSignature\" was not injected: check your FXML file 'MainView.fxml'.";
         assert listPlaylists != null : "fx:id=\"listPlaylists\" was not injected: check your FXML file 'MainView.fxml'.";
@@ -215,9 +218,9 @@ public class MainView {
 
         private NeteaseAPI api = Main.api;
 
-        private int playlistID;
+        private long playlistID;
 
-        TaskGetPlaylistDetail(int playlistID) {
+        TaskGetPlaylistDetail(long playlistID) {
             this.playlistID = playlistID;
         }
 
@@ -251,8 +254,9 @@ public class MainView {
         public void onPostExecute(Boolean success) {
             if (success) {
                 labelPlaylistTitle.setText(playlistDetailResponse.getName());
-//                labelPlaylistDescription.setText(playlistDetailResponse.get);
+                labelPlaylistDescription.setText(playlistDetailResponse.getDescription());
                 tablePlaylistTracks.setItems(FXCollections.observableArrayList(playlistDetailResponse.getTracks()));
+                coverView.setImage(new Image(playlistDetailResponse.getCoverUrl()));
             } else {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("不好意思！");
