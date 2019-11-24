@@ -121,6 +121,7 @@ public class NeteaseAPI {
         var body = RequestBody.create(params, MediaType.get("application/x-www-form-urlencoded"));
         Request request = new Request.Builder()
                 .url("http://music.163.com/weapi/" + requestObj.getPath())
+                .addHeader("User-Agent", "nmsl")
                 .post(body)
                 .build();
         try (Response response = httpClient.newCall(request).execute()) {

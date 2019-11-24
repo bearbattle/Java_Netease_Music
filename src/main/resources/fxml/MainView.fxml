@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.shape.*?>
@@ -9,46 +10,123 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bear.neteasemusic.panel.MainView">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bear.neteasemusic.panel.MainView">
    <children>
+      <Label text="正在加载您的歌单～">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
        <TabPane layoutY="81.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <tabs>
               <Tab text="我的歌单">
                  <content>
                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                         <children>
-                            <SplitPane dividerPositions="0.25551102204408815" layoutX="138.0" layoutY="240.0" prefHeight="767.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <SplitPane dividerPositions="0.25" layoutX="138.0" layoutY="240.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                <items>
-                                   <AnchorPane minHeight="0.0" minWidth="0.0">
+                              <AnchorPane>
                                  <children>
-                                    <Label layoutX="36.0" layoutY="501.0" text="正在加载您的歌单～">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label layoutX="96.0" layoutY="194.0" text="你好！">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <ImageView fx:id="avatarView" fitHeight="150.0" fitWidth="150.0" layoutX="51.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-                                    <Label fx:id="labelNickname" alignment="CENTER" layoutX="51.0" layoutY="164.0" prefHeight="30.0" prefWidth="150.0" text="Label" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <ListView fx:id="listPlaylists" layoutY="271.0" prefHeight="500.0" prefWidth="251.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                                    <Label layoutX="86.0" layoutY="237.0" text="我的歌单" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
+                                    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <VBox alignment="TOP_CENTER" prefHeight="258.0" prefWidth="251.0" VBox.vgrow="NEVER">
+                                             <children>
+                                                <ImageView fx:id="avatarView" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+                                                <Label fx:id="labelNickname" alignment="CENTER" prefHeight="30.0" prefWidth="150.0" text="用户" textAlignment="CENTER">
+                                                   <font>
+                                                      <Font size="20.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label alignment="CENTER" contentDisplay="CENTER" text="你好！" textAlignment="CENTER">
+                                                   <font>
+                                                      <Font size="20.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="我的歌单" textAlignment="CENTER">
+                                                   <font>
+                                                      <Font size="20.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                             </children>
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <padding>
+                                                <Insets top="10.0" />
+                                             </padding>
+                                          </VBox>
+                                          <VBox VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <ListView fx:id="listPlaylists" VBox.vgrow="ALWAYS">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </ListView>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </VBox>
                                  </children>
                               </AnchorPane>
-                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                              <AnchorPane prefHeight="769.0" prefWidth="583.0">
                                  <children>
-                                    <ListView layoutX="19.0" layoutY="266.0" prefHeight="499.0" prefWidth="739.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="266.0" />
-                                    <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                                    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <HBox>
+                                             <children>
+                                                <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                                <VBox prefHeight="200.0" prefWidth="481.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label fx:id="labelPlaylistTitle" text="请选择歌单～">
+                                                         <font>
+                                                            <Font size="24.0" />
+                                                         </font>
+                                                         <padding>
+                                                            <Insets top="5.0" />
+                                                         </padding>
+                                                      </Label>
+                                                      <Label text="简介">
+                                                         <font>
+                                                            <Font size="20.0" />
+                                                         </font>
+                                                         <padding>
+                                                            <Insets top="5.0" />
+                                                         </padding>
+                                                      </Label>
+                                                      <Label fx:id="labelPlaylistDescription" text="这里是歌单简介～" wrapText="true">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                         <padding>
+                                                            <Insets top="5.0" />
+                                                         </padding>
+                                                      </Label>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets left="20.0" right="20.0" />
+                                                   </padding>
+                                                </VBox>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="50.0" left="50.0" top="20.0" />
+                                             </padding>
+                                          </HBox>
+                                          <TableView fx:id="tablePlaylistTracks" prefHeight="358.0" prefWidth="744.0" VBox.vgrow="ALWAYS">
+                                            <columns>
+                                              <TableColumn fx:id="columnNumber" prefWidth="44.0" text="序号" />
+                                              <TableColumn fx:id="columnName" minWidth="0.0" prefWidth="212.0" text="歌曲名" />
+                                                <TableColumn fx:id="columnArtistName" prefWidth="114.0" text="歌手" />
+                                                <TableColumn fx:id="columnAlbumName" minWidth="2.0" prefWidth="373.0" text="专辑" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </VBox>
                                  </children>
                               </AnchorPane>
                                </items>
