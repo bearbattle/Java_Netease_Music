@@ -11,7 +11,10 @@ public class LoginResponse extends ApiResponse {
         LoginResponse resp = new LoginResponse();
         if (response.getIntValue("code") != 200) {
             resp.ok = false;
-            resp.reason = "用户名或密码错误。";
+            if (response.containsKey("msg"))
+                resp.reason = response.getString("msg");
+            else
+                resp.reason = "用户名或密码错误。";
         } else {
             resp.ok = true;
             var profile = response.getJSONObject("profile");

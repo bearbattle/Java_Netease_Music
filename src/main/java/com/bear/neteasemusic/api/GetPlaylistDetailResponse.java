@@ -34,6 +34,8 @@ public class GetPlaylistDetailResponse extends ApiResponse {
             }).collect(Collectors.toList());
             resp.name = listObject.getString("name");
             resp.playedTimes = listObject.getIntValue("playCount");
+            resp.description = listObject.getString("description");
+            resp.coverUrl = listObject.getString("coverImgUrl");
         }
         return resp;
     }
@@ -54,5 +56,15 @@ public class GetPlaylistDetailResponse extends ApiResponse {
 
     public int getPlayedTimes() {
         return playedTimes;
+    }
+
+    private String coverUrl;
+    public String getCoverUrl() {
+        return coverUrl;
+    }
+
+    private String description;
+    public String getDescription() {
+        return description;
     }
 }
