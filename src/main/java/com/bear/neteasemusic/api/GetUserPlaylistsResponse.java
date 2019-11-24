@@ -12,7 +12,7 @@ public class GetUserPlaylistsResponse extends ApiResponse {
 
     public static class Playlist {
         public String name;
-        public int id;
+        public long id;
         public int trackCount;
         public int playCount;
         public String coverImgUrl;
@@ -29,7 +29,7 @@ public class GetUserPlaylistsResponse extends ApiResponse {
                 JSONObject obj = (JSONObject)x;
                 Playlist p = new Playlist();
                 p.name = obj.getString("name");
-                p.id = obj.getIntValue("id");
+                p.id = obj.getLongValue("id");
                 p.trackCount = obj.getIntValue("trackCount");
                 p.playCount = obj.getIntValue("playCount");
                 p.coverImgUrl = obj.getString("coverImgUrl");

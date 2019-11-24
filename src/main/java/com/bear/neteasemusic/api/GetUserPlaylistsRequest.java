@@ -8,21 +8,21 @@ public class GetUserPlaylistsRequest extends ApiRequest {
         return "user/playlist";
     }
 
-    public GetUserPlaylistsRequest(int uid, int limit, int offset) {
+    public GetUserPlaylistsRequest(long uid, int limit, int offset) {
         this.uid = uid;
         this.limit = limit;
         this.offset = offset;
     }
 
-    public GetUserPlaylistsRequest(int uid) {
+    public GetUserPlaylistsRequest(long uid) {
         this.uid = uid;
         this.limit = 30;
         this.offset = 0;
     }
 
-    private int uid;
+    private long uid;
     @JSONField(name = "uid")
-    public int getUserId() {
+    public long getUserId() {
         return uid;
     }
 

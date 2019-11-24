@@ -14,10 +14,10 @@ public class GetTrackUrlRequest extends ApiRequest {
         return "song/enhance/player/url";
     }
 
-    private int[] ids;
+    private long[] ids;
 
     @JSONField(name = "ids")
-    public int[] getIds() {
+    public long[] getIds() {
         return ids;
     }
 
@@ -36,8 +36,8 @@ public class GetTrackUrlRequest extends ApiRequest {
         return 0;
     }
 
-    public GetTrackUrlRequest(int id, Rate rate) {
-        this.ids = new int[]{id};
+    public GetTrackUrlRequest(long id, Rate rate) {
+        this.ids = new long[]{id};
         this.rate = rate;
     }
 }

@@ -8,15 +8,15 @@ public class GetPlaylistDetailRequest extends ApiRequest {
         return "v3/playlist/detail";
     }
 
-    public GetPlaylistDetailRequest(int id) {
+    public GetPlaylistDetailRequest(long id) {
         this.id = id;
         this.limit = 1000;
         this.offset = 0;
     }
 
-    private int id;
+    private long id;
     @JSONField(name = "id")
-    public int getId() {
+    public long getId() {
         return id;
     }
 

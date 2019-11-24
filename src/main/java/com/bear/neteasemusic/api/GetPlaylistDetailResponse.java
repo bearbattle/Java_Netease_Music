@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class GetPlaylistDetailResponse extends ApiResponse {
     public static class Track {
-        public int id;
+        public long id;
         public String name;
         public String albumName;
         public String artistName;
@@ -26,7 +26,7 @@ public class GetPlaylistDetailResponse extends ApiResponse {
             resp.tracks = listObject.getJSONArray("tracks").stream().map((Object x) -> {
                 JSONObject obj = (JSONObject) x;
                 Track t = new Track();
-                t.id = obj.getIntValue("id");
+                t.id = obj.getLongValue("id");
                 t.name = obj.getString("name");
                 t.albumName = obj.getJSONObject("al").getString("name");
                 t.artistName = String.join(" / ", obj.getJSONArray("ar").stream().map((Object o) -> ((JSONObject) o).getString("name")).collect(Collectors.toList()));

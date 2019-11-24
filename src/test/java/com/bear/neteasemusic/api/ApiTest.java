@@ -10,9 +10,9 @@ import java.io.IOException;
 public class ApiTest {
 
     private NeteaseAPI api;
-    private int userId;
-    private int playlistId;
-    private int trackId;
+    private long userId;
+    private long playlistId;
+    private long trackId;
 
     @BeforeTest
     public void initialize() {
@@ -32,9 +32,11 @@ public class ApiTest {
     @Test(dependsOnGroups = "login")
     public void testGetUserPlaylists() throws IOException {
         GetUserPlaylistsRequest req = new GetUserPlaylistsRequest(userId);
+        var respj = api.postRequest(req);
+        System.out.println(respj.toJSONString());
         var resp = GetUserPlaylistsResponse.parse(api.postRequest(req));
         Assert.assertTrue(resp.isOk());
-        playlistId = resp.getLists().get(0).id;
+        playlistId = resp.getLists().get(2).id;
         for (var list : resp.getLists()) {
             System.out.println(String.format("%s (有 %d 首歌)", list.name, list.trackCount));
         }

@@ -20,7 +20,7 @@ public class LoginResponse extends ApiResponse {
             var profile = response.getJSONObject("profile");
             resp.signature = profile.getString("signature");
             resp.nickName = profile.getString("nickname");
-            resp.userId = profile.getIntValue("userId");
+            resp.userId = profile.getLongValue("userId");
             resp.avatarUrl = profile.getString("avatarUrl");
         }
         return resp;
@@ -38,8 +38,8 @@ public class LoginResponse extends ApiResponse {
         return signature;
     }
 
-    private int userId;
-    public int getUserId() {
+    private long userId;
+    public long getUserId() {
         return userId;
     }
 
