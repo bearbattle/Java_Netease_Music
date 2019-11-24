@@ -130,6 +130,7 @@ public class LoginPanel {
         @Override
         public void onPostExecute(Boolean success) {
             if (success) {
+                Main.loginStatus = true;
                 fatherStage.close();
                 try {
                     Main.avatarUrl = new URL(resp.getAvatarUrl());
