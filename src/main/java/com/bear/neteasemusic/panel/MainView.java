@@ -1,11 +1,14 @@
 package com.bear.neteasemusic.panel;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.bear.neteasemusic.Lyric;
 import com.bear.neteasemusic.Main;
 import com.bear.neteasemusic.api.*;
 import com.victorlaerte.asynctask.AsyncTask;
@@ -15,6 +18,7 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
 import javafx.scene.control.*;
@@ -24,11 +28,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.SVGPath;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 
 public class MainView {
+
+    @FXML
+    public ImageView imgTrack;
 
     private Stage stage;
 
@@ -104,6 +112,9 @@ public class MainView {
     @FXML
     private Slider volumeBar;
 
+    @FXML
+    private Label labelLyric;
+
     private static String pauseSvg = "M28,21 L28,39 C28,39.553 27.552,40 27,40 C26.448,40 26,39.553 26,39 L26,22 L22,22 L22,38 L23,38 C23.552,38 24,38.447 24,39 C24,39.553 23.552,40 23,40 L21,40 C20.448,40 20,39.553 20,39 L20,21 C20,20.447 20.448,20 21,20 L27,20 C27.552,20 28,20.447 28,21 M40,21 L40,39 C40,39.553 39.552,40 39,40 C38.448,40 38,39.553 38,39 L38,22 L34,22 L34,38 L35,38 C35.552,38 36,38.447 36,39 C36,39.553 35.552,40 35,40 L33,40 C32.448,40 32,39.553 32,39 L32,21 C32,20.447 32.448,20 33,20 L39,20 C39.552,20 40,20.447 40,21 M30,58 C14.561,58 2,45.439 2,30 C2,14.561 14.561,2 30,2 C45.439,2 58,14.561 58,30 C58,45.439 45.439,58 30,58 M30,0 C13.458,0 0,13.458 0,30 C0,46.542 13.458,60 30,60 C46.542,60 60,46.542 60,30 C60,13.458 46.542,0 30,0";
     private static String playSvg = "M40,30 C40,30.34 39.827,30.657 39.541,30.841 L29.531,37.276 C29.065,37.574 28.448,37.44 28.149,36.977 C27.851,36.512 27.985,35.894 28.449,35.595 L37.151,30 L26,22.832 L26,39 C26,39.553 25.552,40 25,40 C24.448,40 24,39.553 24,39 L24,21 C24,20.634 24.2,20.298 24.521,20.122 C24.841,19.947 25.232,19.959 25.541,20.159 L39.541,29.159 C39.827,29.343 40,29.66 40,30 M30,58 C14.561,58 2,45.439 2,30 C2,14.561 14.561,2 30,2 C45.439,2 58,14.561 58,30 C58,45.439 45.439,58 30,58 M30,0 C13.458,0 0,13.458 0,30 C0,46.542 13.458,60 30,60 C46.542,60 60,46.542 60,30 C60,13.458 46.542,0 30,0";
     private static String muteSvg = "M30,25.7v8.5c0,0.2-0.1,0.3-0.2,0.4c-0.1,0-0.1,0.1-0.2,0.1c-0.1,0-0.2,0-0.3-0.1    l-2.8-1.9c-0.2-0.1-0.3-0.4-0.1-0.7c0.1-0.2,0.4-0.3,0.7-0.1l2.1,1.4v-6.7L27,28c-0.1,0.1-0.2,0.1-0.3,0.1h-1.4v4.3    c0,0.3-0.2,0.5-0.5,0.5s-0.5-0.2-0.5-0.5v-4.7c0-0.3,0.2-0.5,0.5-0.5h1.7l2.7-1.8c0.1-0.1,0.3-0.1,0.5,0    C29.9,25.4,30,25.6,30,25.7 M35.5,28.4L34,30l1.6,1.6c0.2,0.2,0.2,0.5,0,0.7c-0.1,0.1-0.2,0.1-0.3,0.1s-0.2,0-0.3-0.1l-1.6-1.6    l-1.6,1.6c-0.1,0.1-0.2,0.1-0.3,0.1s-0.2,0-0.3-0.1c-0.2-0.2-0.2-0.5,0-0.7l1.6-1.6l-1.6-1.6c-0.2-0.2-0.2-0.5,0-0.7    c0.2-0.2,0.5-0.2,0.7,0l1.6,1.6l1.6-1.6c0.2-0.2,0.5-0.2,0.7,0C35.7,28,35.7,28.3,35.5,28.4 M30,43.2c-7.3,0-13.2-5.9-13.2-13.2    S22.7,16.8,30,16.8S43.2,22.7,43.2,30S37.3,43.2,30,43.2 M30,15.8c-7.8,0-14.2,6.4-14.2,14.2S22.2,44.2,30,44.2S44.2,37.8,44.2,30    S37.8,15.8,30,15.8";
@@ -176,9 +187,20 @@ public class MainView {
                 (observable, oldValue, newValue) -> {
                     TaskGetTrackUrl getTrackUrl = new TaskGetTrackUrl(newValue);
                     getTrackUrl.execute();
+                    new TaskGetTrackCover(newValue).execute();
+                    new TaskGetLyric(newValue).execute();
                 }
         );
 
+    }
+
+    public void logout(ActionEvent actionEvent) throws IOException {
+        Main.logoutStatus = true;
+        Main.prop.setProperty("autoLogin", "false");
+        FileOutputStream fout = new FileOutputStream(Main.propFile);
+        Main.prop.store(fout, "");
+        fout.close();
+        stage.close();
     }
 
 
@@ -432,6 +454,17 @@ public class MainView {
 
                 player.currentTimeProperty().addListener(
                         (observable, oldValue, newValue) -> {
+                            String curLyric;
+                            if (lyric != null && lyric.isPureMusic()) {
+                                curLyric = "纯音乐，请欣赏";
+                            } else if (lyric != null && lyric.isLyricMissing()) {
+                                curLyric = "当前歌曲暂无歌词";
+                            } else if (parsedLyric != null) {
+                                curLyric = parsedLyric.GetCurrentLyric((int)newValue.toMillis());
+                            } else {
+                                curLyric = "获取歌词失败";
+                            }
+                            labelLyric.setText(curLyric);
                             labelCurTime.setText(durationToString(newValue));
                             isSeeking.set(false);
                             progressBar.setValue(newValue.toMillis() / player.getTotalDuration().toMillis() * 1000);
@@ -516,4 +549,97 @@ public class MainView {
         }
     }
 
+
+    GetLyricsResponse lyric;
+    Lyric parsedLyric;
+
+    class TaskGetLyric extends AsyncTask<Void, Void, Boolean>{
+
+        GetLyricsRequest lyricsRequest;
+        GetLyricsResponse lyricsResponse;
+
+        private NeteaseAPI api = Main.api;
+
+        TrackInfo track;
+        private long trackID;
+
+        public void setTrack(TrackInfo track) {
+            this.track = track;
+        }
+
+        public TaskGetLyric(TrackInfo track) {
+            setTrack(track);
+            this.trackID = track.id;
+        }
+
+        @Override
+        public void onPreExecute() {
+            labelLyric.setText("正在获取歌词");
+        }
+
+        @Override
+        public Boolean doInBackground(Void... params) {
+            lyricsRequest = new GetLyricsRequest(trackID);
+            try {
+                lyricsResponse = GetLyricsResponse.parse(api.postRequest(lyricsRequest));
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+            return lyricsResponse.isOk();
+        }
+
+        @Override
+        public void onPostExecute(Boolean success) {
+            if (success) {
+                lyric = lyricsResponse;
+                if (!lyric.isLyricMissing() && !lyric.isPureMusic()) {
+                    parsedLyric = new Lyric(lyric.getLyric());
+                }
+                else{
+                    parsedLyric = null;
+                }
+            }
+            else{
+                lyric = null;
+            }
+        }
+
+        @Override
+        public void progressCallback(Void... params) {
+
+        }
+    }
+
+
+    class TaskGetTrackCover extends AsyncTask<Void, Void, Boolean>{
+
+        TrackInfo info;
+
+        public TaskGetTrackCover(TrackInfo info) {
+            this.info = info;
+        }
+
+        @Override
+        public void onPreExecute() {
+
+        }
+
+        @Override
+        public Boolean doInBackground(Void... params) {
+            Image img = new Image(info.albumCoverUrl);
+            imgTrack.setImage(img);
+            return true;
+        }
+
+        @Override
+        public void onPostExecute(Boolean params) {
+
+        }
+
+        @Override
+        public void progressCallback(Void... params) {
+
+        }
+    }
 }

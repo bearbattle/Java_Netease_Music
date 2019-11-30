@@ -40,6 +40,6 @@ public class Lyric {
         var element = LrcList.stream().filter(l -> l.time > duration).findFirst();
         if (element.isPresent())
             return element.get().content;
-        return "";
+        return "<Music>";
     }
 }

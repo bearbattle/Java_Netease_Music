@@ -22,6 +22,7 @@ public class Main extends Application {
 
     public static NeteaseAPI api = new NeteaseAPI();
     public static boolean loginStatus = false;
+    public static boolean logoutStatus = false;
     public static Properties prop = new Properties();
     public static File propFile = new File(".", "config.properties");
 
@@ -50,20 +51,24 @@ public class Main extends Application {
         loginStage.setAlwaysOnTop(true);
         loginStage.setTitle("登录");
         loginStage.setResizable(false);
-        loginStage.showAndWait();
 
-        if (loginStatus) {
-            primaryStage.getIcons().add(new Image(url_icon.toString()));
-            primaryStage.setTitle("网易云音乐");
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainView.fxml"));
-            Scene scene = new Scene(root);
-            addStylesheet(scene);
-            primaryStage.setScene(scene);
-            primaryStage.setMinHeight(850);
-            primaryStage.setMinWidth(1000);
-            primaryStage.show();
-        }
+            loginStage.showAndWait();
+
+            if (loginStatus) {
+                logoutStatus = false;
+                primaryStage.getIcons().add(new Image(url_icon.toString()));
+                primaryStage.setTitle("网易云音乐");
+                Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainView.fxml"));
+                Scene scene = new Scene(root);
+                addStylesheet(scene);
+                primaryStage.setScene(scene);
+                primaryStage.setMinHeight(850);
+                primaryStage.setMinWidth(1000);
+                primaryStage.show();
+            }
     }
+
+    public static boolean DoNotExit = true;
 
     public static void main(String[] args) {
         try {
