@@ -14,6 +14,11 @@ public class GetTrackUrlRequest extends ApiRequest {
         return "song/enhance/player/url";
     }
 
+    @Override
+    public NeteaseAPI.EncryptionType getEncryptionMethod() {
+        return NeteaseAPI.EncryptionType.WEAPI;
+    }
+
     private long[] ids;
 
     @JSONField(name = "ids")

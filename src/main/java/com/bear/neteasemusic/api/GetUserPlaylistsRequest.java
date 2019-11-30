@@ -8,6 +8,11 @@ public class GetUserPlaylistsRequest extends ApiRequest {
         return "user/playlist";
     }
 
+    @Override
+    public NeteaseAPI.EncryptionType getEncryptionMethod() {
+        return NeteaseAPI.EncryptionType.WEAPI;
+    }
+
     public GetUserPlaylistsRequest(long uid, int limit, int offset) {
         this.uid = uid;
         this.limit = limit;

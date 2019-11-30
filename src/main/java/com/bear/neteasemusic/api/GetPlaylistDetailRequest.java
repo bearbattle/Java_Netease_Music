@@ -8,6 +8,11 @@ public class GetPlaylistDetailRequest extends ApiRequest {
         return "v3/playlist/detail";
     }
 
+    @Override
+    public NeteaseAPI.EncryptionType getEncryptionMethod() {
+        return NeteaseAPI.EncryptionType.WEAPI;
+    }
+
     public GetPlaylistDetailRequest(long id) {
         this.id = id;
         this.limit = 1000;

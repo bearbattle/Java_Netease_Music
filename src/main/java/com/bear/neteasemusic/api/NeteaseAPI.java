@@ -29,6 +29,7 @@ public class NeteaseAPI {
     private static final int aesKeySize = 16;
     private static byte[] defaultIV = "0102030405060708".getBytes(US_ASCII);
     private static final byte[] presetKey = "0CoJUm6Qyw8W8jud".getBytes(US_ASCII);
+    private static final byte[] linuxapiKey = "rFgB&h#%2?^eDg:Q".getBytes(US_ASCII);
     private static final String pubKeyString = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDgtQn2JZ34ZC28NWYpAUd98iZ37BUrX/aKzmFbt7clFSs6sXqHauqKWqdtLkF2KexO40H1YTX8z2lSgBBOAxLsvaklV8k4cBFK9snQXE9/DDaFt6Rr7iVZMldczhC0JNgTz+SHXT6CBHuX3e9SdB1Ua44oncaTWz7OBGLbCiK45wIDAQAB";
     private static Cipher rsaCipher = null;
     private static final byte[] base62 =
@@ -77,12 +78,30 @@ public class NeteaseAPI {
         }
     }
 
+    private static byte[] aesECBEncrypt(byte[] buffer, byte[] key) {
+        SecretKeySpec skeySpec = null;
+        Cipher cipher = null;
+        try {
+            skeySpec = new SecretKeySpec(key, "AES");
+            cipher = Cipher.getInstance("AES/ECB/NoPadding");
+            cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+            int padLength = aesKeySize - (buffer.length % aesKeySize);
+            byte[] pad = new byte[padLength];
+            Arrays.fill(pad, (byte) padLength);
+            byte[] padded = ArrayUtils.addAll(buffer, pad);
+            byte[] encrypted = cipher.doFinal(padded);
+            return encrypted;
+        } catch (Exception e) {
+            throw new RuntimeException("This is gonna never happen");
+        }
+    }
+
     private static String toPercentEncoding(byte[] shit) {
         return new String(URLCodec.encodeUrl(new BitSet(256), shit));
     }
 
-    private static String weapiEncrypt(String t) {
-        byte[] text = t.getBytes(UTF_8);
+    private static String weapiEncrypt(Object t) {
+        byte[] text = JSON.toJSONString(t).getBytes(UTF_8);
         byte[] secretKey = new byte[aesKeySize];
         for (int i = 0; i < aesKeySize; i++) {
             secretKey[i] = base62[RandomUtils.nextInt(0, base62.length)];
@@ -91,6 +110,15 @@ public class NeteaseAPI {
         byte[] result2 = aesEncrypt(result1, secretKey, defaultIV);
         byte[] rsaResult = Hex.encodeHexString(rsaEncrypt(secretKey)).getBytes(US_ASCII);
         return String.format("params=%s&encSecKey=%s", toPercentEncoding(result2), toPercentEncoding(rsaResult));
+    }
+
+    private static String linuxapiEncrypt(Object t, String path) {
+        JSONObject obj = new JSONObject();
+        obj.put("method", "POST");
+        obj.put("url", "http://music.163.com/api/" + path);
+        obj.put("params", JSON.toJSON(t));
+        String text = JSON.toJSONString(obj);
+        return String.format("eparams=%s", toPercentEncoding(Hex.encodeHexString(aesECBEncrypt(text.getBytes(UTF_8), linuxapiKey)).getBytes(US_ASCII)));
     }
 
     private OkHttpClient httpClient;
@@ -115,13 +143,29 @@ public class NeteaseAPI {
         httpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
     }
 
+    enum EncryptionType {
+        WEAPI,
+        LinuxAPI
+    }
 
     public JSONObject postRequest(ApiRequest requestObj) throws IOException {
-        String params = weapiEncrypt(JSON.toJSONString(requestObj));
+        String params, path;
+        switch (requestObj.getEncryptionMethod()) {
+            case WEAPI:
+                params = weapiEncrypt(requestObj);
+                path = "weapi/" + requestObj.getPath();
+                break;
+            case LinuxAPI:
+                params = linuxapiEncrypt(requestObj, requestObj.getPath());
+                path = "api/linux/forward";
+                break;
+            default:
+                throw new RuntimeException("Wrong enc type");
+        }
         var body = RequestBody.create(params, MediaType.get("application/x-www-form-urlencoded"));
         Request request = new Request.Builder()
-                .url("http://music.163.com/weapi/" + requestObj.getPath())
-                .addHeader("User-Agent", "nmsl")
+                .url("http://music.163.com/" + path)
+                .header("User-Agent", "FUCK")
                 .post(body)
                 .build();
         try (Response response = httpClient.newCall(request).execute()) {

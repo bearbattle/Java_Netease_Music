@@ -17,6 +17,11 @@ public class LoginRequest extends ApiRequest {
         return "login";
     }
 
+    @Override
+    public NeteaseAPI.EncryptionType getEncryptionMethod() {
+        return NeteaseAPI.EncryptionType.WEAPI;
+    }
+
     private static MessageDigest digest;
 
     static {
