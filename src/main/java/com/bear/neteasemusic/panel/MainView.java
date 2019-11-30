@@ -43,10 +43,10 @@ public class MainView {
     private ListView<GetUserPlaylistsResponse.Playlist> listPlaylists;
 
     @FXML
-    private TableView<GetPlaylistDetailResponse.Track> tablePlaylistTracks;
+    private TableView<TrackInfo> tablePlaylistTracks;
 
     @FXML
-    private TableColumn<GetPlaylistDetailResponse.Track, Integer> columnNumber;
+    private TableColumn<TrackInfo, Integer> columnNumber;
 
     @FXML
     private ImageView avatarView;
@@ -55,10 +55,10 @@ public class MainView {
     private Label labelPlaylistDescription;
 
     @FXML
-    private TableColumn<GetPlaylistDetailResponse.Track, String> columnArtistName;
+    private TableColumn<TrackInfo, String> columnArtistName;
 
     @FXML
-    private TableColumn<GetPlaylistDetailResponse.Track, String> columnAlbumName;
+    private TableColumn<TrackInfo, String> columnAlbumName;
 
     @FXML
     private Label labelNickname;
@@ -67,7 +67,7 @@ public class MainView {
     private Label labelPlaylistTitle;
 
     @FXML
-    private TableColumn<GetPlaylistDetailResponse.Track, String> columnName;
+    private TableColumn<TrackInfo, String> columnName;
 
     @FXML
     private ImageView coverView;
@@ -89,17 +89,17 @@ public class MainView {
         TaskGetUserPlaylists getUserPlaylists = new TaskGetUserPlaylists();
         getUserPlaylists.execute();
 
-        columnNumber.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<GetPlaylistDetailResponse.Track, Integer>, ObservableValue<Integer>>() {
+        columnNumber.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<TrackInfo, Integer>, ObservableValue<Integer>>() {
             @Override
-            public ObservableValue<Integer> call(TableColumn.CellDataFeatures<GetPlaylistDetailResponse.Track, Integer> param) {
+            public ObservableValue<Integer> call(TableColumn.CellDataFeatures<TrackInfo, Integer> param) {
                 return new ReadOnlyObjectWrapper<Integer>(0);
             }
         });
 
-        columnNumber.setCellFactory(new Callback<TableColumn<GetPlaylistDetailResponse.Track, Integer>, TableCell<GetPlaylistDetailResponse.Track, Integer>>() {
+        columnNumber.setCellFactory(new Callback<TableColumn<TrackInfo, Integer>, TableCell<TrackInfo, Integer>>() {
             @Override
-            public TableCell<GetPlaylistDetailResponse.Track, Integer> call(TableColumn<GetPlaylistDetailResponse.Track, Integer> param) {
-                return new TableCell<GetPlaylistDetailResponse.Track, Integer>(){
+            public TableCell<TrackInfo, Integer> call(TableColumn<TrackInfo, Integer> param) {
+                return new TableCell<TrackInfo, Integer>(){
                     @Override
                     protected void updateItem(Integer item, boolean empty) {
                         super.updateItem(item, empty);
