@@ -67,17 +67,23 @@ public class ApiTest {
         GetLyricsRequest req = new GetLyricsRequest(trackId);
         var resp = GetLyricsResponse.parse(api.postRequest(req));
         Assert.assertTrue(resp.isOk());
-        if (resp.isPureMusic())
-        {
+        if (resp.isPureMusic()) {
             System.out.println("是纯音乐");
-        }
-        else if (resp.isLyricMissing())
-        {
+        } else if (resp.isLyricMissing()) {
             System.out.println("暂无歌词");
-        }
-        else
-        {
+        } else {
             System.out.println(resp.getLyric());
+        }
+    }
+
+    @Parameters({"keyword"})
+    @Test
+    public void testSearch(String keyword) throws IOException {
+        SearchRequest req = new SearchRequest(keyword);
+        var resp = SearchResponse.parse(api.postRequest(req));
+        Assert.assertTrue(resp.isOk());
+        for (var track : resp.getTracks()) {
+            System.out.println(String.format("%s by %s in %s", track.name, track.artistName, track.albumName));
         }
     }
 }
