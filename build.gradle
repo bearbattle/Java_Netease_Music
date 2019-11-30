@@ -35,8 +35,8 @@ dependencies {
 }
 
 javafx {
-    version = "13"
-    modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics']
+    version = "11"
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media']
 }
 
 mainClassName = '$moduleName/Main'

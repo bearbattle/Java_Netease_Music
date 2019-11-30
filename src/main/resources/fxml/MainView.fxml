@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.media.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
@@ -139,13 +140,106 @@
                  <content>
                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                         <children>
-                            <SplitPane dividerPositions="0.7176470588235294" layoutX="385.0" layoutY="169.0" orientation="VERTICAL" prefHeight="767.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <SplitPane dividerPositions="0.75" layoutX="385.0" layoutY="169.0" orientation="VERTICAL" prefHeight="767.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                <items>
-                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <VBox alignment="TOP_CENTER" layoutY="14.0" prefHeight="607.0" prefWidth="998.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Label fx:id="labelTrackName" alignment="CENTER" contentDisplay="CENTER" layoutX="339.0" layoutY="14.0" text="歌曲名" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="25.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="labelDetail" alignment="CENTER" contentDisplay="CENTER" layoutX="339.0" layoutY="49.0" text="艺术家" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextFlow layoutX="399.0" layoutY="204.0" prefHeight="607.0" prefWidth="998.0" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
+                                       </children>
+                                    </VBox>
+                                 </children></AnchorPane>
                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                       <children>
-                                          <Slider layoutX="223.0" layoutY="51.0" prefHeight="16.0" prefWidth="552.0" />
-                                          <SVGPath content="M40,21 L40,39 C40,39.366 39.8,39.702 39.479,39.878 C39.33,39.959 39.165,40 39,40 C38.812,40 38.624,39.947 38.459,39.841 L30.448,34.691 C29.983,34.394 29.849,33.774 30.147,33.31 C30.447,32.846 31.065,32.708 31.529,33.01 L38,37.169 L38,22.832 L27.541,29.555 C27.233,29.754 26.841,29.766 26.521,29.592 C26.2,29.416 26,29.08 26,28.714 L26,22 L22,22 L22,38 L26,38 L26,33 C26,32.447 26.448,32 27,32 C27.552,32 28,32.447 28,33 L28,39 C28,39.553 27.552,40 27,40 L21,40 C20.448,40 20,39.553 20,39 L20,21 C20,20.447 20.448,20 21,20 L27,20 C27.552,20 28,20.447 28,21 L28,26.882 L38.459,20.159 C38.767,19.959 39.158,19.947 39.479,20.122 C39.8,20.298 40,20.634 40,21 M30,58 C14.561,58 2,45.439 2,30 C2,14.561 14.561,2 30,2 C45.439,2 58,14.561 58,30 C58,45.439 45.439,58 30,58 M30,0 C13.458,0 0,13.458 0,30 C0,46.542 13.458,60 30,60 C46.542,60 60,46.542 60,30 C60,13.458 46.542,0 30,0" layoutX="566.0" layoutY="91.0" />
+                                    <VBox alignment="CENTER" layoutX="112.0" layoutY="49.0" prefHeight="226.0" prefWidth="998.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <HBox alignment="CENTER" layoutX="220.0" layoutY="50.0">
+                                             <children>
+                                                <Label fx:id="labelCurTime" alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="60.0" text="0:00" textAlignment="CENTER">
+                                                   <padding>
+                                                      <Insets bottom="20.0" />
+                                                   </padding>
+                                                   <HBox.margin>
+                                                      <Insets right="10.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                      <Slider fx:id="progressBar" blockIncrement="1.0" layoutX="223.0" layoutY="51.0" max="1000.0" prefHeight="16.0" prefWidth="552.0">
+                                                   <padding>
+                                                      <Insets bottom="20.0" />
+                                                   </padding>
+                                                </Slider>
+                                                <Label fx:id="labelTotalTime" alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="60.0" text="0:00">
+                                                   <padding>
+                                                      <Insets bottom="20.0" />
+                                                   </padding>
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER" layoutX="401.5" layoutY="97.0">
+                                             <children>
+                                                <Slider disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.0" prefHeight="0.0" prefWidth="100.0" />
+                                                <Pane opacity="0.0">
+                                                   <children>
+                                                      <SVGPath fx:id="iconMute1" content="M33.6,25c1.3,1.3,2.1,3.1,2.1,5c0,1.9-0.7,3.7-2.1,5c-0.1,0.1-0.2,0.1-0.3,0.1    c-0.1,0-0.2,0-0.3-0.1c-0.2-0.2-0.2-0.5,0-0.7c1.2-1.2,1.8-2.7,1.8-4.3c0-1.6-0.6-3.2-1.8-4.3c-0.2-0.2-0.2-0.5,0-0.7    C33.1,24.8,33.4,24.8,33.6,25 M32.8,30c0,1.1-0.4,2.2-1.2,3c-0.1,0.1-0.2,0.1-0.3,0.1c-0.1,0-0.2,0-0.3-0.1    c-0.2-0.2-0.2-0.5,0-0.7c0.6-0.6,1-1.5,1-2.3c0-0.9-0.3-1.7-1-2.3c-0.2-0.2-0.2-0.5,0-0.7c0.2-0.2,0.5-0.2,0.7,0    C32.4,27.8,32.8,28.9,32.8,30 M30,25.7v8.5c0,0.2-0.1,0.3-0.3,0.4c-0.1,0-0.1,0.1-0.2,0.1c-0.1,0-0.2,0-0.3-0.1l-2.8-1.9    c-0.2-0.1-0.3-0.4-0.1-0.7c0.1-0.2,0.4-0.3,0.7-0.1l2.1,1.4v-6.7L27,28c-0.1,0.1-0.2,0.1-0.3,0.1h-1.4v4.3c0,0.3-0.2,0.5-0.5,0.5    c-0.3,0-0.5-0.2-0.5-0.5v-4.7c0-0.3,0.2-0.5,0.5-0.5h1.7l2.7-1.8c0.1-0.1,0.3-0.1,0.5,0C29.9,25.4,30,25.6,30,25.7 M30,43.2    c-7.3,0-13.2-5.9-13.2-13.2c0-7.3,5.9-13.2,13.2-13.2c7.3,0,13.2,5.9,13.2,13.2C43.2,37.3,37.3,43.2,30,43.2 M30,15.8    c-7.8,0-14.2,6.4-14.2,14.2S22.2,44.2,30,44.2S44.2,37.8,44.2,30S37.8,15.8,30,15.8" layoutX="-17.0" layoutY="-1.0">
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" right="10.0" />
+                                                         </HBox.margin>
+                                                      </SVGPath>
+                                                   </children>
+                                                </Pane>
+                                                      <SVGPath fx:id="iconPrev" content="M37.5,22.7v14c0,0.3-0.2,0.5-0.4,0.7c-0.1,0.1-0.2,0.1-0.4,0.1c-0.1,0-0.3,0-0.4-0.1    l-6.2-4c-0.4-0.2-0.5-0.7-0.2-1.1c0.2-0.4,0.7-0.5,1.1-0.2l5,3.2V24.2l-8.1,5.2c-0.2,0.2-0.5,0.2-0.8,0c-0.2-0.1-0.4-0.4-0.4-0.7    v-5.2h-3.1v12.4h3.1V32c0-0.4,0.3-0.8,0.8-0.8c0.4,0,0.8,0.3,0.8,0.8v4.7c0,0.4-0.3,0.8-0.8,0.8h-4.7c-0.4,0-0.8-0.3-0.8-0.8v-14    c0-0.4,0.3-0.8,0.8-0.8h4.7c0.4,0,0.8,0.3,0.8,0.8v4.6l8.1-5.2c0.2-0.2,0.5-0.2,0.8,0C37.3,22.2,37.5,22.4,37.5,22.7 M29.7,51.4    C17.7,51.4,8,41.7,8,29.7S17.7,8,29.7,8s21.7,9.7,21.7,21.7S41.7,51.4,29.7,51.4 M29.7,6.5C16.9,6.5,6.5,16.9,6.5,29.7    S16.9,53,29.7,53S53,42.5,53,29.7S42.5,6.5,29.7,6.5" layoutX="395.0" layoutY="97.0">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" right="10.0" />
+                                                   </HBox.margin>
+                                                </SVGPath>
+                                                <Pane onMouseClicked="#PlayOrPause">
+                                                   <children>
+                                                      <SVGPath fx:id="iconPlay" content="M40,30 C40,30.34 39.827,30.657 39.541,30.841 L29.531,37.276 C29.065,37.574 28.448,37.44 28.149,36.977 C27.851,36.512 27.985,35.894 28.449,35.595 L37.151,30 L26,22.832 L26,39 C26,39.553 25.552,40 25,40 C24.448,40 24,39.553 24,39 L24,21 C24,20.634 24.2,20.298 24.521,20.122 C24.841,19.947 25.232,19.959 25.541,20.159 L39.541,29.159 C39.827,29.343 40,29.66 40,30 M30,58 C14.561,58 2,45.439 2,30 C2,14.561 14.561,2 30,2 C45.439,2 58,14.561 58,30 C58,45.439 45.439,58 30,58 M30,0 C13.458,0 0,13.458 0,30 C0,46.542 13.458,60 30,60 C46.542,60 60,46.542 60,30 C60,13.458 46.542,0 30,0">
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" right="10.0" />
+                                                         </HBox.margin>
+                                                      </SVGPath>
+                                                   </children>
+                                                </Pane>
+                                                <SVGPath fx:id="iconNext" content="M37.7,23V37c0,0.4-0.3,0.8-0.8,0.8h-4.6c-0.4,0-0.8-0.3-0.8-0.8v-4.6    c0-0.4,0.3-0.8,0.8-0.8c0.4,0,0.8,0.3,0.8,0.8v3.9h3.1V23.8h-3.1V29c0,0.3-0.2,0.5-0.4,0.7c-0.2,0.1-0.6,0.1-0.8,0l-8.1-5.2v11.1    l5-3.2c0.4-0.2,0.8-0.1,1.1,0.2c0.2,0.4,0.1,0.8-0.2,1.1l-6.2,4c-0.1,0.1-0.3,0.1-0.4,0.1c-0.1,0-0.3,0-0.4-0.1    c-0.2-0.1-0.4-0.4-0.4-0.7V23c0-0.3,0.2-0.5,0.4-0.7c0.2-0.1,0.6-0.1,0.8,0l8.1,5.2V23c0-0.4,0.3-0.8,0.8-0.8H37    C37.4,22.3,37.7,22.6,37.7,23 M30,51.7C18,51.7,8.3,42,8.3,30S18,8.3,30,8.3S51.7,18,51.7,30S42,51.7,30,51.7 M30,6.8    C17.2,6.8,6.8,17.2,6.8,30S17.2,53.2,30,53.2S53.2,42.8,53.2,30S42.8,6.8,30,6.8" layoutX="542.0" layoutY="96.0">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" right="10.0" />
+                                                   </HBox.margin>
+                                                </SVGPath>
+                                                <Pane onMouseClicked="#muteOrUnmute">
+                                                   <children>
+                                                      <SVGPath fx:id="iconMute" content="M33.6,25c1.3,1.3,2.1,3.1,2.1,5c0,1.9-0.7,3.7-2.1,5c-0.1,0.1-0.2,0.1-0.3,0.1    c-0.1,0-0.2,0-0.3-0.1c-0.2-0.2-0.2-0.5,0-0.7c1.2-1.2,1.8-2.7,1.8-4.3c0-1.6-0.6-3.2-1.8-4.3c-0.2-0.2-0.2-0.5,0-0.7    C33.1,24.8,33.4,24.8,33.6,25 M32.8,30c0,1.1-0.4,2.2-1.2,3c-0.1,0.1-0.2,0.1-0.3,0.1c-0.1,0-0.2,0-0.3-0.1    c-0.2-0.2-0.2-0.5,0-0.7c0.6-0.6,1-1.5,1-2.3c0-0.9-0.3-1.7-1-2.3c-0.2-0.2-0.2-0.5,0-0.7c0.2-0.2,0.5-0.2,0.7,0    C32.4,27.8,32.8,28.9,32.8,30 M30,25.7v8.5c0,0.2-0.1,0.3-0.3,0.4c-0.1,0-0.1,0.1-0.2,0.1c-0.1,0-0.2,0-0.3-0.1l-2.8-1.9    c-0.2-0.1-0.3-0.4-0.1-0.7c0.1-0.2,0.4-0.3,0.7-0.1l2.1,1.4v-6.7L27,28c-0.1,0.1-0.2,0.1-0.3,0.1h-1.4v4.3c0,0.3-0.2,0.5-0.5,0.5    c-0.3,0-0.5-0.2-0.5-0.5v-4.7c0-0.3,0.2-0.5,0.5-0.5h1.7l2.7-1.8c0.1-0.1,0.3-0.1,0.5,0C29.9,25.4,30,25.6,30,25.7 M30,43.2    c-7.3,0-13.2-5.9-13.2-13.2c0-7.3,5.9-13.2,13.2-13.2c7.3,0,13.2,5.9,13.2,13.2C43.2,37.3,37.3,43.2,30,43.2 M30,15.8    c-7.8,0-14.2,6.4-14.2,14.2S22.2,44.2,30,44.2S44.2,37.8,44.2,30S37.8,15.8,30,15.8" layoutX="-17.0" layoutY="-1.0">
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" right="10.0" />
+                                                         </HBox.margin>
+                                                      </SVGPath>
+                                                   </children>
+                                                </Pane>
+                                                <Slider fx:id="volumeBar" blockIncrement="0.01" max="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="10.0" prefWidth="100.0" value="1.0" />
+                                             </children>
+                                             <opaqueInsets>
+                                                <Insets left="5.0" right="5.0" />
+                                             </opaqueInsets>
+                                          </HBox>
+                                       </children>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                    </VBox>
                                       </children>
                                    </AnchorPane>
                                </items>

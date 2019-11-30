@@ -3,7 +3,7 @@ package com.bear.neteasemusic.api;
 import com.alibaba.fastjson.annotation.JSONField;
 
 public class GetTrackUrlRequest extends ApiRequest {
-    enum Rate {
+    public enum Rate {
         mp3_320,
         mp3_192,
         mp3_128
