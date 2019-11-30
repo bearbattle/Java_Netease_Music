@@ -5,6 +5,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import javax.print.DocFlavor;
 import java.io.IOException;
 
 public class ApiTest {
@@ -85,5 +86,15 @@ public class ApiTest {
         for (var track : resp.getTracks()) {
             System.out.println(String.format("%s by %s in %s", track.name, track.artistName, track.albumName));
         }
+    }
+
+    @Parameters({"keyword"})
+    @Test
+    public void testSearchSuggest(String keyword) throws IOException {
+        String str = keyword.substring(0, 1);
+        var req = new SearchSuggestRequest(str);
+        var resp = SearchSuggestResponse.parse(api.postRequest(req));
+        Assert.assertTrue(resp.isOk());
+        System.out.println("“" + str + "” 的搜索建议：" + String.join(", ", resp.getSuggests()));
     }
 }
