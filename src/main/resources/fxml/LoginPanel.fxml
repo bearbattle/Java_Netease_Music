@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="paneLogin" prefHeight="275.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bear.neteasemusic.panel.LoginPanel">
+<AnchorPane fx:id="paneLogin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="275.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bear.neteasemusic.panel.LoginPanel">
    <children>
        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="112.0" layoutY="14.0" text="欢迎使用 Java 网易云音乐！&#10;请先登录以获取您的歌单！" textAlignment="CENTER" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="15.0">
            <font>

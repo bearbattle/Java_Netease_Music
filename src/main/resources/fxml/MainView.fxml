@@ -18,9 +18,9 @@
             <Font size="20.0" />
          </font>
       </Label>
-       <TabPane layoutY="81.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+       <TabPane fx:id="tabPane" layoutY="81.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <tabs>
-              <Tab text="我的歌单">
+              <Tab fx:id="tabInfo" closable="false" text="我的歌单">
                  <content>
                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                         <children>
@@ -137,7 +137,7 @@
                      </AnchorPane>
                  </content>
               </Tab>
-              <Tab text="播放界面">
+              <Tab fx:id="tabPlayer" closable="false" text="播放界面">
                  <content>
                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                         <children>
@@ -260,6 +260,40 @@
                      </AnchorPane>
                  </content>
               </Tab>
+            <Tab fx:id="tabSearch" closable="false" text="搜索">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox layoutX="450.0" layoutY="301.0" prefHeight="817.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <TextField fx:id="textKeyword" alignment="BOTTOM_LEFT" prefHeight="30.0" prefWidth="500.0" promptText="请输入你要搜索的内容">
+                                       <HBox.margin>
+                                          <Insets right="10.0" top="30.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                    <Button mnemonicParsing="false" onAction="#searchTrack" text="搜索">
+                                       <HBox.margin>
+                                          <Insets right="10.0" top="30.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <TableView fx:id="tableSearchTrack" VBox.vgrow="ALWAYS">
+                                 <columns>
+                                    <TableColumn fx:id="columnNumber1" prefWidth="44.0" text="序号" />
+                                    <TableColumn fx:id="columnName1" minWidth="0.0" prefWidth="212.0" text="歌曲名" />
+                                    <TableColumn fx:id="columnArtistName1" prefWidth="114.0" text="歌手" />
+                                    <TableColumn fx:id="columnAlbumName1" minWidth="2.0" prefWidth="373.0" text="专辑" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
             <Tab fx:id="tabSignature" closable="false" disable="true" text="签名">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />

@@ -12,6 +12,7 @@ import com.bear.neteasemusic.Main;
 
 import com.victorlaerte.asynctask.AsyncTask;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -63,10 +64,10 @@ public class LoginPanel {
         password = Main.prop.getProperty("password");
         autoLogin = Main.prop.getProperty("autoLogin", "false").equals("true");
 
-        if (!username.isEmpty()) {
+        if (username != null && !username.isEmpty()) {
             textUsername.setText(username);
         }
-        if (!password.isEmpty()) {
+        if (password != null && !password.isEmpty()) {
             textPassword.setText(password);
             checkRememberPassword.setSelected(true);
         }
@@ -75,7 +76,7 @@ public class LoginPanel {
             checkAutoLogin.setSelected(true);
             actionLogin(null);
         }
-        URL url_load = getClass().getClassLoader().getResource("icons/load.gif");
+        URL url_load = getClass().getResource("/icons/load.gif");
         Image load = new Image(url_load.toString());
         ImageView view = new ImageView(load);
         view.setFitHeight(50);
@@ -112,18 +113,21 @@ public class LoginPanel {
             password = textPassword.getText();
             System.out.println("登录中……");
             LoginRequest req = new LoginRequest(username, password);
+            System.out.println("1234");
             String reason = null;
             try {
                 resp = LoginResponse.parse(Main.api.postRequest(req));
             } catch (IOException e) {
                 e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("错误！");
-                alert.setHeaderText(null);
-                alert.setContentText(e.toString());
-                alert.showAndWait();
-                alert.close();
+                return false;
+//                Alert alert = new Alert(Alert.AlertType.WARNING);
+//                alert.setTitle("错误！");
+//                alert.setHeaderText(null);
+//                alert.setContentText(e.toString());
+//                alert.showAndWait();
+//                alert.close();
             }
+            System.out.println("12345");
             return resp.isOk();
         }
 
@@ -156,6 +160,8 @@ public class LoginPanel {
                 alert.initOwner(fatherStage);
                 alert.showAndWait();
                 fatherStage.setScene(loginScene);
+                fatherStage.setHeight(275);
+                fatherStage.setWidth(400);
                 Main.prop.setProperty("autoLogin", String.valueOf(false));
             }
             try {

@@ -15,10 +15,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
 
-
 public class Main extends Application {
 
-    private URL url_icon = getClass().getClassLoader().getResource("icons/ncm_icon.png");
+    private URL url_icon = getClass().getResource("/icons/ncm_icon.png");
 
     public static NeteaseAPI api = new NeteaseAPI();
     public static boolean loginStatus = false;
@@ -32,16 +31,21 @@ public class Main extends Application {
     public static URL avatarUrl;
 
     public static void addStylesheet(Scene scene) {
-        URL url0 = Main.class.getClassLoader().getResource("com/sun/javafx/scene/control/skin/modena/modena.css");
-        if (url0 == null) throw new AssertionError();
-        URL url1 = Main.class.getClassLoader().getResource("com/sun/javafx/scene/control/skin/modena/modena-no-transparency.css");
-        if (url1 == null) throw new AssertionError();
+        try {
+            var shit = ClassLoader.getSystemResources("fxml/LoginPanel.fxml").asIterator();
+            while(shit.hasNext())
+                System.out.println("SHIT " + shit.next());
+        } catch (Exception e) { e.printStackTrace(); }
+        URL url0 = Main.class.getResource("/modena/modena.css");
+        System.out.println(url0);
+        URL url1 = Main.class.getResource("/modena/modena-no-transparency.css");
         scene.getStylesheets().add(url0.toString());
         scene.getStylesheets().add(url1.toString());
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         Stage loginStage = new Stage();
         loginStage.getIcons().add(new Image(url_icon.toString()));
         Parent panelLogin = FXMLLoader.load(getClass().getResource("/fxml/LoginPanel.fxml"));
@@ -51,7 +55,8 @@ public class Main extends Application {
         loginStage.setAlwaysOnTop(true);
         loginStage.setTitle("登录");
         loginStage.setResizable(false);
-
+        loginStage.setMinWidth(400);
+        loginStage.setMinHeight(275);
             loginStage.showAndWait();
 
             if (loginStatus) {

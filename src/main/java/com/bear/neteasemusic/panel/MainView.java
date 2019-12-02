@@ -38,6 +38,37 @@ public class MainView {
     @FXML
     public ImageView imgTrack;
 
+    @FXML
+    public TableView<TrackInfo> tableSearchTrack;
+
+    @FXML
+    public TableColumn<TrackInfo, Integer> columnNumber1;
+
+    @FXML
+    public TableColumn<TrackInfo, String> columnName1;
+
+    @FXML
+    public TableColumn<TrackInfo, String> columnArtistName1;
+
+    @FXML
+    public TableColumn<TrackInfo, String> columnAlbumName1;
+
+    @FXML
+    public TextField textKeyword;
+
+    @FXML
+    public TabPane tabPane;
+
+    @FXML
+    public Tab tabInfo;
+
+    @FXML
+    public Tab tabPlayer;
+
+    @FXML
+    public Tab tabSearch;
+
+
     private Stage stage;
 
     @FXML // ResourceBundle that was given to the FXMLLoader
@@ -151,14 +182,39 @@ public class MainView {
         TaskGetUserPlaylists getUserPlaylists = new TaskGetUserPlaylists();
         getUserPlaylists.execute();
 
-        columnNumber.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<TrackInfo, Integer>, ObservableValue<Integer>>() {
+        columnNumber.setCellValueFactory(new Callback<>() {
             @Override
             public ObservableValue<Integer> call(TableColumn.CellDataFeatures<TrackInfo, Integer> param) {
                 return new ReadOnlyObjectWrapper<Integer>(0);
             }
         });
 
-        columnNumber.setCellFactory(new Callback<TableColumn<TrackInfo, Integer>, TableCell<TrackInfo, Integer>>() {
+        columnNumber.setCellFactory(new Callback<>() {
+            @Override
+            public TableCell<TrackInfo, Integer> call(TableColumn<TrackInfo, Integer> param) {
+                return new TableCell<TrackInfo, Integer>() {
+                    @Override
+                    protected void updateItem(Integer item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (this.getTableRow() != null && item != null) {
+                            setText(this.getTableRow().getIndex() + 1 + "");
+                        } else {
+                            setText("");
+                        }
+                    }
+                };
+            }
+        });
+
+        columnNumber1.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<TrackInfo, Integer>, ObservableValue<Integer>>() {
+            @Override
+            public ObservableValue<Integer> call(TableColumn.CellDataFeatures<TrackInfo, Integer> param) {
+                return new ReadOnlyObjectWrapper<Integer>(0);
+            }
+        });
+
+        columnNumber1.setCellFactory(new Callback<TableColumn<TrackInfo, Integer>, TableCell<TrackInfo, Integer>>() {
             @Override
             public TableCell<TrackInfo, Integer> call(TableColumn<TrackInfo, Integer> param) {
                 return new TableCell<TrackInfo, Integer>() {
@@ -189,9 +245,19 @@ public class MainView {
                     getTrackUrl.execute();
                     new TaskGetTrackCover(newValue).execute();
                     new TaskGetLyric(newValue).execute();
+                    tabPane.getSelectionModel().select(tabPlayer);
                 }
         );
 
+        tableSearchTrack.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    TaskGetTrackUrl getTrackUrl = new TaskGetTrackUrl(newValue);
+                    getTrackUrl.execute();
+                    new TaskGetTrackCover(newValue).execute();
+                    new TaskGetLyric(newValue).execute();
+                    tabPane.getSelectionModel().select(tabPlayer);
+                }
+        );
     }
 
     public void logout(ActionEvent actionEvent) throws IOException {
@@ -201,6 +267,75 @@ public class MainView {
         Main.prop.store(fout, "");
         fout.close();
         stage.close();
+    }
+
+    public void searchTrack(ActionEvent actionEvent) {
+        class TaskSearch extends AsyncTask<Void, Void, Boolean> {
+            private NeteaseAPI api = Main.api;
+
+            SearchRequest searchRequest;
+            SearchResponse searchResponse;
+
+            @Override
+            public void onPreExecute() {
+                columnName1.setCellValueFactory(
+                        cellData -> new ReadOnlyStringWrapper(cellData.getValue().name)
+                );
+                columnArtistName1.setCellValueFactory(
+                        cellData -> new ReadOnlyStringWrapper(cellData.getValue().artistName)
+                );
+                columnAlbumName1.setCellValueFactory(
+                        cellData -> new ReadOnlyStringWrapper(cellData.getValue().albumName)
+                );
+            }
+
+            @Override
+            public Boolean doInBackground(Void... params) {
+                searchRequest = new SearchRequest(textKeyword.getText());
+                try {
+                    searchResponse = SearchResponse.parse(api.postRequest(searchRequest));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+                return searchResponse.isOk();
+            }
+
+            @Override
+            public void onPostExecute(Boolean params) {
+                if (params) {
+                    tableSearchTrack.setItems(FXCollections.observableArrayList(searchResponse.getTracks()));
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("不好意思！");
+                    alert.setHeaderText("嘤嘤嘤～歌单获取失败了啦～");
+                    alert.setContentText(searchResponse.errorReason());
+                    alert.initOwner(stage);
+
+                    Optional<ButtonType> result;
+                    result = alert.showAndWait();
+                    if (result.isEmpty()) {
+                        alert.close();
+                    }
+                    // alert is exited, no button has been pressed.
+                    else if (result.get() == ButtonType.OK) {
+                        this.doInBackground();
+                    }
+                    //oke button is pressed
+                    else if (result.get() == ButtonType.CANCEL) {
+                        alert.close();
+                    }
+                    // cancel button is pressed
+                }
+            }
+
+            @Override
+            public void progressCallback(Void... params) {
+
+            }
+        }
+
+        new TaskSearch().execute();
     }
 
 
@@ -418,14 +553,17 @@ public class MainView {
                     player.dispose();
                     player = null;
                 }
+
                 if (progressBarListener != null) {
                     progressBar.valueProperty().removeListener(progressBarListener);
                     progressBarListener = null;
                 }
+
+                System.out.println(trackUrlResponse.getUrl());
+
                 try {
                     music = new Media(trackUrlResponse.getUrl());
                     player = new MediaPlayer(music);
-
                 } catch (Exception e) {
                     e.printStackTrace();
                     labelTrackName.setText("载入歌曲失败了1551～");
@@ -439,9 +577,15 @@ public class MainView {
                 }
                 player.volumeProperty().bindBidirectional(volumeBar.valueProperty());
                 AtomicBoolean isSeeking = new AtomicBoolean(true);
+                player.totalDurationProperty().addListener(
+                        (observable, oldValue, newValue) -> {
+                            labelTotalTime.setText(durationToString(newValue));
+                        }
+                );
 
                 player.statusProperty().addListener(
                         (observable, oldValue, newValue) -> {
+                            System.out.println(newValue);
                             switch (newValue) {
                                 case PLAYING:
                                     iconPlay.setContent(pauseSvg);
@@ -451,7 +595,6 @@ public class MainView {
                             }
                         }
                 );
-
                 player.currentTimeProperty().addListener(
                         (observable, oldValue, newValue) -> {
                             String curLyric;
@@ -460,7 +603,7 @@ public class MainView {
                             } else if (lyric != null && lyric.isLyricMissing()) {
                                 curLyric = "当前歌曲暂无歌词";
                             } else if (parsedLyric != null) {
-                                curLyric = parsedLyric.GetCurrentLyric((int)newValue.toMillis());
+                                curLyric = parsedLyric.GetCurrentLyric((int) newValue.toMillis());
                             } else {
                                 curLyric = "获取歌词失败";
                             }
@@ -471,29 +614,29 @@ public class MainView {
                             isSeeking.set(true);
                         }
                 );
-
-                player.totalDurationProperty().addListener(
-                        (observable, oldValue, newValue) -> {
-                            labelTotalTime.setText(durationToString(newValue));
-                        }
-                );
-
                 progressBarListener = (observable, oldValue, newValue) -> {
                     if (isSeeking.get())
                         player.seek(Duration.millis(newValue.doubleValue() / 1000 * player.getTotalDuration().toMillis()));
                 };
                 progressBar.valueProperty().addListener(progressBarListener);
 
-
                 labelTrackName.setText(track.name);
                 labelDetail.setText(track.artistName + "-" + track.albumName);
-                player.play();
+                player.setAutoPlay(true);
+                player.errorProperty().addListener((f,u,c)->{
+                    c.printStackTrace();
+                });
+                try {
+                    player.play();
+                    System.out.println(player);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
                 player.setOnStalled(
                         () -> {
                             new Alert(Alert.AlertType.WARNING).show();
                         }
                 );
-                System.gc();
             } else {
                 labelTrackName.setText("载入歌曲失败了1551～");
                 labelDetail.setText("载入歌曲失败了1551～");
@@ -553,7 +696,7 @@ public class MainView {
     GetLyricsResponse lyric;
     Lyric parsedLyric;
 
-    class TaskGetLyric extends AsyncTask<Void, Void, Boolean>{
+    class TaskGetLyric extends AsyncTask<Void, Void, Boolean> {
 
         GetLyricsRequest lyricsRequest;
         GetLyricsResponse lyricsResponse;
@@ -595,12 +738,10 @@ public class MainView {
                 lyric = lyricsResponse;
                 if (!lyric.isLyricMissing() && !lyric.isPureMusic()) {
                     parsedLyric = new Lyric(lyric.getLyric());
-                }
-                else{
+                } else {
                     parsedLyric = null;
                 }
-            }
-            else{
+            } else {
                 lyric = null;
             }
         }
@@ -612,7 +753,7 @@ public class MainView {
     }
 
 
-    class TaskGetTrackCover extends AsyncTask<Void, Void, Boolean>{
+    class TaskGetTrackCover extends AsyncTask<Void, Void, Boolean> {
 
         TrackInfo info;
 

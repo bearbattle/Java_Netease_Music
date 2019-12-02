@@ -1,13 +1,26 @@
+
+buildscript {
+    repositories {
+        maven {
+            url 'https://plugins.gradle.org/m2'
+        }
+    }
+    dependencies {
+        classpath 'org.openjfx:javafx-plugin:0.0.8'
+    }
+}
+
 plugins {
     id 'java'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.8'
-    id 'org.beryx.jlink' version '2.12.0'
 }
+
+
 
 group 'com.bear.neteasemusic'
 version '0.0.1'
-
+ext.moduleName = 'neteasemusic'
 sourceCompatibility = 11
 
 repositories {
@@ -19,9 +32,6 @@ dependencies {
     // https://mvnrepository.com/artifact/org.testng/testng
     testCompile group: 'org.testng', name: 'testng', version: '7.0.0'
 
-    // https://mvnrepository.com/artifact/org.eclipse.swt/org.eclipse.swt.gtk.linux.x86_64
-    compile group: 'org.eclipse.swt', name: 'org.eclipse.swt.gtk.linux.x86_64', version: '4.3'
-    // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
     compile group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.2.2'
     // https://mvnrepository.com/artifact/commons-codec/commons-codec
     compile group: 'commons-codec', name: 'commons-codec', version: '1.13'
@@ -35,17 +45,23 @@ dependencies {
 }
 
 javafx {
-    version = "11"
+    version = "13"
     modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media']
 }
 
-mainClassName = '$moduleName/Main'
+mainClassName = "$moduleName/com.bear.neteasemusic.Main"
 
-jlink {
-    launcher {
-        name = 'Main'
-    }
-}
 test {
     useTestNG()
+}
+afterEvaluate {
+    compileJava{
+        inputs.property('moduleName', moduleName)
+        doFirst {
+            options.compilerArgs=[
+                    '--module-path', classpath.asPath
+            ]
+            classpath = files()
+        }
+    }
 }

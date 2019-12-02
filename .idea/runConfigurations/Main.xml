@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
+    <option name="ALTERNATIVE_JRE_PATH" value="13" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="MAIN_CLASS_NAME" value="com.bear.neteasemusic.Main" />
+    <module name="neteasemusic.main" />
+    <option name="VM_PARAMETERS" value="-p /usr/lib/jvm/java-13-openjdk/lib --add-modules=javafx.controls,javafx.fxml,javafx.media -Xbootclasspath/a:javafx-controls-13-linux.jar" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
