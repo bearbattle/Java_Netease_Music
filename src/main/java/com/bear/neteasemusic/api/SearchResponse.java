@@ -15,15 +15,18 @@ public class SearchResponse extends ApiResponse {
         } else {
             resp.ok = true;
 
-            JSONObject listObject = response.getJSONObject("result").getJSONObject("song");
+            JSONObject listObject = response.getJSONObject("result");
             resp.tracks = listObject.getJSONArray("songs").stream().map((Object x) -> {
                 JSONObject obj = (JSONObject) x;
                 TrackInfo t = new TrackInfo();
                 t.id = obj.getLongValue("id");
                 t.name = obj.getString("name");
-                t.albumName = obj.getJSONObject("al").getString("name");
-                t.albumCoverUrl = obj.getJSONObject("al").getString("picUrl");
-                t.artistName = String.join(" / ", obj.getJSONArray("ar").stream().map((Object o) -> ((JSONObject) o).getString("name")).collect(Collectors.toList()));
+                t.isFee = obj.getIntValue("fee") == 1;
+                t.feeValue = obj.getIntValue("fee");
+
+                t.albumName = obj.getJSONObject("album").getString("name");
+                t.albumCoverUrl = obj.getJSONObject("album").getString("picId");
+                t.artistName = String.join(" / ", obj.getJSONArray("artists").stream().map((Object o) -> ((JSONObject) o).getString("name")).collect(Collectors.toList()));
                 return t;
             }).collect(Collectors.toList());
         }

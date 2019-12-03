@@ -203,6 +203,7 @@ public class MainView {
                             setText("");
                         }
                     }
+
                 };
             }
         });
@@ -241,6 +242,13 @@ public class MainView {
 
         tablePlaylistTracks.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
+                    if (newValue.isFee){
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setHeaderText("收费歌曲无法播放");
+                        alert.initOwner(stage);
+                        alert.showAndWait();
+                        return;
+                    }
                     TaskGetTrackUrl getTrackUrl = new TaskGetTrackUrl(newValue);
                     getTrackUrl.execute();
                     new TaskGetTrackCover(newValue).execute();
@@ -251,6 +259,13 @@ public class MainView {
 
         tableSearchTrack.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
+                    if (newValue.isFee){
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setHeaderText("收费歌曲无法播放");
+                        alert.initOwner(stage);
+                        alert.showAndWait();
+                        return;
+                    }
                     TaskGetTrackUrl getTrackUrl = new TaskGetTrackUrl(newValue);
                     getTrackUrl.execute();
                     new TaskGetTrackCover(newValue).execute();
@@ -279,7 +294,7 @@ public class MainView {
             @Override
             public void onPreExecute() {
                 columnName1.setCellValueFactory(
-                        cellData -> new ReadOnlyStringWrapper(cellData.getValue().name)
+                        cellData -> new ReadOnlyStringWrapper(cellData.getValue().name + (cellData.getValue().isFee ? String.format(" (收费 %d)", cellData.getValue().feeValue)  : ""))
                 );
                 columnArtistName1.setCellValueFactory(
                         cellData -> new ReadOnlyStringWrapper(cellData.getValue().artistName)
@@ -446,7 +461,7 @@ public class MainView {
             labelPlaylistTitle.setText("正在载入歌单～");
             labelPlaylistDescription.setText("正在载入歌单～");
             columnName.setCellValueFactory(
-                    cellData -> new ReadOnlyStringWrapper(cellData.getValue().name)
+                    cellData -> new ReadOnlyStringWrapper(cellData.getValue().name + (cellData.getValue().isFee ? String.format(" (收费 %d)", cellData.getValue().feeValue) : ""))
             );
             columnArtistName.setCellValueFactory(
                     cellData -> new ReadOnlyStringWrapper(cellData.getValue().artistName)

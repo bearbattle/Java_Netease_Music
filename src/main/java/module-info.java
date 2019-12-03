@@ -7,6 +7,7 @@ module neteasemusic {
     requires javafx.media;
     requires jfx.asynctask;
     requires java.sql;
+    requires org.testng;
     exports com.bear.neteasemusic;
     exports com.bear.neteasemusic.panel;
     exports com.bear.neteasemusic.api;

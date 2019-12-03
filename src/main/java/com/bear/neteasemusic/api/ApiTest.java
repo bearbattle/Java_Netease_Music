@@ -1,11 +1,11 @@
 package com.bear.neteasemusic.api;
 
+import com.bear.neteasemusic.api.*;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import javax.print.DocFlavor;
 import java.io.IOException;
 
 public class ApiTest {

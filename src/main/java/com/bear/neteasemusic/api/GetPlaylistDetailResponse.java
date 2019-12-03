@@ -18,9 +18,13 @@ public class GetPlaylistDetailResponse extends ApiResponse {
             JSONObject listObject = response.getJSONObject("playlist");
             resp.tracks = listObject.getJSONArray("tracks").stream().map((Object x) -> {
                 JSONObject obj = (JSONObject) x;
+                System.out.println(obj.toJSONString());
                 TrackInfo t = new TrackInfo();
                 t.id = obj.getLongValue("id");
                 t.name = obj.getString("name");
+                t.isFee = obj.getIntValue("fee") == 1;
+                t.feeValue = obj.getIntValue("fee");
+
                 t.albumName = obj.getJSONObject("al").getString("name");
                 t.albumCoverUrl = obj.getJSONObject("al").getString("picUrl");
                 t.artistName = String.join(" / ", obj.getJSONArray("ar").stream().map((Object o) -> ((JSONObject) o).getString("name")).collect(Collectors.toList()));

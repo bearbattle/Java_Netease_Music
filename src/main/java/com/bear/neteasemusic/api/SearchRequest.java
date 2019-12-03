@@ -27,7 +27,7 @@ public class SearchRequest extends ApiRequest {
 
     @JSONField(name = "type")
     public int getType() {
-        return 1018;
+        return 1;
     }
 
     @JSONField(name = "offset")

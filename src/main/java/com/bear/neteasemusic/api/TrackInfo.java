@@ -6,5 +6,7 @@ public class TrackInfo {
         public String albumName;
         public String albumCoverUrl;
         public String artistName;
+        public boolean isFee;
+        public int feeValue;
 }
 
