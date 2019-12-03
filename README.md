@@ -9,7 +9,7 @@
 * 播放歌曲
 
 ## 使用方法
-在 [Releases](https://github.com/bearbattle/Java_Netease_Music/releases) 页面可以下载编译打包好的软件。需要安装 JDK13。
+在 [Releases](https://github.com/bearbattle/Java_Netease_Music/releases) 页面可以下载编译打包好的软件。需要安装 JDK13 并在系统环境变量中配置 JAVA_HOME 至 JDK13 目录。
 
 下载完成后，进入 neteasemusic\bin 文件夹，运行 neteasemusic.bat 即可打开软件。
 
